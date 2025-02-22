@@ -18,7 +18,7 @@ int main()
             auto r = double(x) / (img_width -1);
             auto g = double(y) / (img_height -1);
             auto b = 0;
-            auto pixelColor = color(r, g, b);
+            auto pixelColor = Color(r, g, b);
             Write_Color(std::cout, pixelColor);
         }
     }
