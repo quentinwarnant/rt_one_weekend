@@ -51,7 +51,7 @@ public:
 };
 
 // Type aliase to distinguish between points and vectors
-using point3 = Vec3;
+using Point3 = Vec3;
 
 // Vec3 Utility Functions
 inline std::ostream& operator<<(std::ostream& out, const Vec3& v)
