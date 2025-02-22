@@ -1,3 +1,7 @@
+
+#include "Maths/vec3.h"
+#include "Utility/color.h"
+
 #include <iostream>
 
 int main()
@@ -14,12 +18,8 @@ int main()
             auto r = double(x) / (img_width -1);
             auto g = double(y) / (img_height -1);
             auto b = 0;
-
-            int ir = int(255.99 * r);
-            int ig = int(255.99 * g);
-            int ib = int(255.99 * b);
-
-            std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+            auto pixelColor = color(r, g, b);
+            Write_Color(std::cout, pixelColor);
         }
     }
 }
