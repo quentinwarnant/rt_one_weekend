@@ -10,10 +10,10 @@ constexpr auto AspectRatio = 16.0 / 9.0;
 double HitSphere(const Point3& center, double radius, const Ray& r)
 {
     const Vec3 oc = center - r.GetOrigin();
-    const auto a = Dot(r.GetDirection(), r.GetDirection());
-    const auto b = -2.0 * Dot(oc, r.GetDirection());
-    const auto c = Dot(oc, oc) - radius * radius;
-    const auto discriminant = b*b - 4*a*c;
+    const auto a = r.GetDirection().Length_squared();
+    const auto h = Dot(r.GetDirection(), oc);
+    const auto c = oc.Length_squared() - (radius * radius);
+    const auto discriminant = h*h - a*c;
     if( discriminant < 0 )
     {
         return -1.0;
@@ -21,7 +21,7 @@ double HitSphere(const Point3& center, double radius, const Ray& r)
     else
     {
         // Find the nearest root that lies in the front of the sphere
-        return (-b - std::sqrt(discriminant)) / (2.0 * a);
+        return (h - std::sqrt(discriminant)) /  a;
     }
 }
 
