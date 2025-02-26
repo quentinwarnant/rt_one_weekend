@@ -7,8 +7,25 @@
 
 constexpr auto AspectRatio = 16.0 / 9.0;
 
+bool HitSphere(const Point3& center, double radius, const Ray& r)
+{
+    const Vec3 oc = center - r.GetOrigin();
+    const auto a = Dot(r.GetDirection(), r.GetDirection());
+    const auto b = 2.0 * Dot(oc, r.GetDirection());
+    const auto c = Dot(oc, oc) - radius * radius;
+    const auto discriminant = b*b - 4*a*c;
+    return discriminant > 0;
+}
+
 Color RayColor(const Ray& r)
 {
+    Point3 SphereCenter(0,0,-1);
+    float SphereRadius = 0.5;
+    if(HitSphere(SphereCenter, SphereRadius, r))
+    {
+        return Color(1,0,0);
+    }
+
     Vec3 UnitDir = Unit_vector(r.GetDirection());
     const auto a = 0.5 * (UnitDir.Y + 1.0);
     return (1.0 - a) * Color(1.0, 1.0, 1.0) + a * Color(0.5, 0.7, 1.0);
