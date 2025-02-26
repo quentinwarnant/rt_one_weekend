@@ -12,6 +12,8 @@ public:
 
     Vec3() : X(0), Y(0), Z(0) {}
     Vec3(double x, double y, double z) : X(x), Y(y), Z(z) {}
+    Vec3(const Vec3&  Other) : X(Other.X), Y(Other.Y), Z(Other.Z) {}
+
 
     Vec3 operator-() const { return Vec3(-X, -Y, -Z); }
     double operator[](int i) const { return i == 0 ? X : (i == 1 ? Y : Z); }
@@ -23,6 +25,19 @@ public:
         Y += v.Y;
         Z += v.Z;
         return *this;
+    }
+   
+    Vec3& operator+=(const double t)
+    {
+        X += t;
+        Y += t;
+        Z += t;
+        return *this;
+    }
+
+    Vec3 operator+(const double t) const 
+    {
+        return Vec3(X + t, Y + t, Z + t);
     }
 
     Vec3& operator*=(const double t)

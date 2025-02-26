@@ -7,23 +7,33 @@
 
 constexpr auto AspectRatio = 16.0 / 9.0;
 
-bool HitSphere(const Point3& center, double radius, const Ray& r)
+double HitSphere(const Point3& center, double radius, const Ray& r)
 {
     const Vec3 oc = center - r.GetOrigin();
     const auto a = Dot(r.GetDirection(), r.GetDirection());
-    const auto b = 2.0 * Dot(oc, r.GetDirection());
+    const auto b = -2.0 * Dot(oc, r.GetDirection());
     const auto c = Dot(oc, oc) - radius * radius;
     const auto discriminant = b*b - 4*a*c;
-    return discriminant > 0;
+    if( discriminant < 0 )
+    {
+        return -1.0;
+    }
+    else
+    {
+        // Find the nearest root that lies in the front of the sphere
+        return (-b - std::sqrt(discriminant)) / (2.0 * a);
+    }
 }
 
 Color RayColor(const Ray& r)
 {
-    Point3 SphereCenter(0,0,-1);
-    float SphereRadius = 0.5;
-    if(HitSphere(SphereCenter, SphereRadius, r))
+    const Point3 SphereCenter(0,0,-1);
+    constexpr float SphereRadius = 0.5;
+    const auto HitDist = HitSphere(SphereCenter, SphereRadius, r);
+    if(HitDist > 0.0)
     {
-        return Color(1,0,0);
+        const Vec3 Normal = Unit_vector(r.At(HitDist) - SphereCenter);
+        return 0.5*Color(Normal+1.0);
     }
 
     Vec3 UnitDir = Unit_vector(r.GetDirection());
